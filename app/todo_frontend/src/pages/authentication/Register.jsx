@@ -11,7 +11,7 @@ import {
   Alert,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { storeToken } from "../../services/LocalStorageService";
+import { storeToken } from "../../services/LocalStorageSerice";
 import { useRegisterUserMutation } from "../../services/userAuthAPI";
 import { Box } from "@mui/system";
 

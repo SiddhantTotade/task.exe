@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useLoginUserMutation } from "../../services/userAuthAPI";
-import { getToken, storeToken } from "../../services/LocalStorageService";
+import { getToken, storeToken } from "../../services/LocalStorageSerice";
 import { useDispatch } from "react-redux";
 import { setUserToken } from "../../features/authSlice";
 
@@ -44,7 +44,7 @@ const LoginPage = () => {
       storeToken(res.data.token);
       let { access_token } = getToken();
       dispatch(setUserToken({ access_token: access_token }));
-      navigate("/api/home");
+      navigate("/api/todo");
     }
   };
 

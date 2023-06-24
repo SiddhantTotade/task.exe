@@ -1,7 +1,12 @@
 import React from "react";
+import TodoCard from "../components/home_components/TodoCard";
 
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <>
+      <TodoCard />
+    </>
+  );
 };
 
 export default Home;

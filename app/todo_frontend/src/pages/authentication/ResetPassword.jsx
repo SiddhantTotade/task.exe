@@ -10,7 +10,6 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useResetPasswordMutation } from "../../services/userAuthAPI";
-import NavBar from "../../components/base_components/NavBar";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ResetPassword = () => {
@@ -50,7 +49,6 @@ const ResetPassword = () => {
 
   return (
     <>
-      <NavBar />
       <Box
         component="form"
         id="password-reset-form"

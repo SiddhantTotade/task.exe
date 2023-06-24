@@ -10,7 +10,6 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useSendPasswordResetEmailMutation } from "../../services/userAuthAPI";
-import NavBar from "../../components/base_components/NavBar";
 
 const ResetPasswordEmail = () => {
   const [error, setError] = useState({});
@@ -42,7 +41,6 @@ const ResetPasswordEmail = () => {
 
   return (
     <>
-      <NavBar />
       <Box
         component="form"
         id="password-reset-form"
