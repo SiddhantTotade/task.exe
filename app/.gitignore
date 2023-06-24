@@ -1,0 +1,4 @@
+/todo_project/__pycache__
+/todo_backend/__pycache__
+/todo_backend/migrations
+.env
