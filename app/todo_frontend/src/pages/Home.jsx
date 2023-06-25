@@ -12,13 +12,29 @@ const Home = () => {
 
   const { data = [], isLoading } = useGetAllTasksQuery(access_token);
 
+  const completedTask = data.data?.map((row) => {
+    return row.complete === true ? row : undefined;
+  });
+
+  const inCompletedTask = data.data?.map((row) => {
+    return row.complete === false ? row : undefined;
+  });
+
+  console.log();
+
   const [taskForm, setTaskForm] = useState({
     new: false,
     open: false,
   });
 
+  const [taskData, setTaskData] = useState({});
+
   const handleTaskForm = (val_1, val_2) => {
     setTaskForm({ open: val_1, new: val_2 });
+  };
+
+  const handleTaskData = (data) => {
+    setTaskData(data);
   };
 
   return (
@@ -35,9 +51,13 @@ const Home = () => {
           border: "2pxx solid red",
         }}
       >
-        <CompleteTaskCard />
-        <IncompleteTaskCard handleTaskForm={handleTaskForm} />
-        <FormCard taskForm={taskForm} />
+        <CompleteTaskCard data={data.data} />
+        <IncompleteTaskCard
+          data={data.data}
+          handleTaskForm={handleTaskForm}
+          handleTaskData={handleTaskData}
+        />
+        <FormCard taskForm={taskForm} taskData={taskData} />
       </Box>
     </>
   );

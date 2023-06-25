@@ -6,9 +6,9 @@ import { getToken } from "../../services/LocalStorageSerice";
 import { useCreateTaskMutation } from "../../services/todoAPIs";
 import { useGetLoggedInUserQuery } from "../../services/userAuthAPI";
 import { useDispatch, useSelector } from "react-redux";
-import { unsetUserInfo, setUserInfo } from "../../features/userSlice";
+import { setUserInfo } from "../../features/userSlice";
 
-const FormCard = ({ taskForm }) => {
+const FormCard = ({ taskForm, taskData }) => {
   const { access_token } = getToken();
 
   const [createTodo, responseCreateTodo] = useCreateTaskMutation();
@@ -55,16 +55,16 @@ const FormCard = ({ taskForm }) => {
         }}
       >
         <TextField
-          sx={{ width: "100%" }}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           label="Title"
+          value={taskForm.new ? "" : taskData.title}
         />
         <TextField
-          sx={{ width: "100%" }}
           onChange={(e) =>
             setFormData({ ...formData, priority: e.target.value })
           }
           label="Priority"
+          value={taskForm.new ? "" : taskData.priority}
         />
         <TextField
           label="Describe Task"
@@ -73,6 +73,7 @@ const FormCard = ({ taskForm }) => {
           }
           multiline
           rows={7}
+          value={taskForm.new ? "" : taskData.description}
         />
         {taskForm.new ? (
           <Button

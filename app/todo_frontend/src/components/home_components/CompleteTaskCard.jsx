@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import { Box, Button, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const CompleteTaskCard = () => {
+const CompleteTaskCard = ({ data }) => {
   return (
     <Card
       sx={{
@@ -33,29 +33,42 @@ const CompleteTaskCard = () => {
         },
       }}
     >
-      <Box sx={{ display: "flex", height: "6vh", gap: "10px", width: "100%" }}>
-        <CardContent
-          sx={{
-            width: "100%",
-            background: "#00c853",
-            borderRadius: "5px",
-            ":hover": { cursor: "pointer", background: "#b0bec5" },
-          }}
-        >
-          <Typography>Hello</Typography>
-        </CardContent>
-        <Box sx={{ display: "flex", gap: "5px" }}>
-          <Button
+      {data?.map((row, i) =>
+        row.complete === true ? (
+          <Box
+            key={i}
             sx={{
-              background: "#607d8b",
-              color: "white",
-              ":hover": { background: "#455a64" },
+              display: "flex",
+              height: "6vh",
+              gap: "10px",
+              width: "100%",
             }}
           >
-            <DeleteIcon />
-          </Button>
-        </Box>
-      </Box>
+            <CardContent
+              sx={{
+                width: "100%",
+                background: "#1b5e20",
+                color: "white",
+                borderRadius: "5px",
+                ":hover": { cursor: "pointer", background: "#b0bec5" },
+              }}
+            >
+              <Typography>{row.title}</Typography>
+            </CardContent>
+            <Box sx={{ display: "flex", gap: "5px" }}>
+              <Button
+                sx={{
+                  background: "#607d8b",
+                  color: "white",
+                  ":hover": { background: "#455a64" },
+                }}
+              >
+                <DeleteIcon />
+              </Button>
+            </Box>
+          </Box>
+        ) : null
+      )}
     </Card>
   );
 };

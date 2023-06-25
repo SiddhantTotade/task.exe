@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 
-const IncompleteTaskCard = ({ handleTaskForm }) => {
+const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
   return (
     <Card
       sx={{
@@ -35,48 +35,68 @@ const IncompleteTaskCard = ({ handleTaskForm }) => {
         },
       }}
     >
-      <Box sx={{ display: "flex", height: "6vh", gap: "10px", width: "100%" }}>
-        <CardContent
-          sx={{
-            width: "100%",
-            background: "#e53935",
-            borderRadius: "5px",
-            ":hover": { cursor: "pointer", background: "#b0bec5" },
-          }}
-        >
-          <Typography>Hello</Typography>
-        </CardContent>
-        <Box sx={{ display: "flex", gap: "5px" }}>
-          <Button
+      {data?.map((row, i) =>
+        row.complete === false ? (
+          <Box
+            key={i}
             sx={{
-              background: "#607d8b",
-              color: "white",
-              ":hover": { background: "#455a64" },
+              display: "flex",
+              height: "6vh",
+              gap: "10px",
+              width: "100%",
             }}
           >
-            <CheckIcon />
-          </Button>
-          <Button
-            sx={{
-              background: "#607d8b",
-              color: "white",
-              ":hover": { background: "#455a64" },
-            }}
-            onClick={() => handleTaskForm(true, false)}
-          >
-            <EditIcon />
-          </Button>
-          <Button
-            sx={{
-              background: "#607d8b",
-              color: "white",
-              ":hover": { background: "#455a64" },
-            }}
-          >
-            <DeleteIcon />
-          </Button>
-        </Box>
-      </Box>
+            <CardContent
+              sx={{
+                width: "100%",
+                background: "#e53935",
+                borderRadius: "5px",
+                ":hover": { cursor: "pointer", background: "#b0bec5" },
+              }}
+            >
+              <Typography>{row.title}</Typography>
+            </CardContent>
+            <Box sx={{ display: "flex", gap: "5px" }}>
+              <Button
+                sx={{
+                  background: "#607d8b",
+                  color: "white",
+                  ":hover": { background: "#455a64" },
+                }}
+              >
+                <CheckIcon />
+              </Button>
+              <Button
+                sx={{
+                  background: "#607d8b",
+                  color: "white",
+                  ":hover": { background: "#455a64" },
+                }}
+                onClick={() => [
+                  handleTaskForm(true, false),
+                  handleTaskData({
+                    id: row.id,
+                    title: row.title,
+                    priority: row.priority,
+                    description: row.description,
+                  }),
+                ]}
+              >
+                <EditIcon />
+              </Button>
+              <Button
+                sx={{
+                  background: "#607d8b",
+                  color: "white",
+                  ":hover": { background: "#455a64" },
+                }}
+              >
+                <DeleteIcon />
+              </Button>
+            </Box>
+          </Box>
+        ) : null
+      )}
     </Card>
   );
 };
