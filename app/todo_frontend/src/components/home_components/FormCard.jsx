@@ -8,8 +8,7 @@ const FormCard = ({ taskForm }) => {
     <Card
       sx={{
         width: "30%",
-        // display: "flex",
-        display: taskForm ? "flex" : "none",
+        display: taskForm.open ? "flex" : "none",
         padding: "10px",
         boxShadow: "3px 5px 10px",
         gap: "10px",
@@ -27,7 +26,11 @@ const FormCard = ({ taskForm }) => {
         <TextField sx={{ width: "100%" }} label="Title" />
         <TextField sx={{ width: "100%" }} label="Priority" />
         <TextField label="Describe Task" multiline rows={7} maxRows={8} />
-        <Button variant="contained">Save</Button>
+        {taskForm.new ? (
+          <Button variant="contained">Save</Button>
+        ) : (
+          <Button variant="contained">Update</Button>
+        )}
       </CardContent>
     </Card>
   );

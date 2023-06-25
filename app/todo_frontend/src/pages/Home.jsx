@@ -6,14 +6,18 @@ import FormCard from "../components/home_components/FormCard";
 import { Box } from "@mui/material";
 
 const Home = () => {
-  const [taskForm, setTaskForm] = useState(false);
+  const [taskForm, setTaskForm] = useState({
+    new: false,
+    open: false,
+  });
 
-  const handleTaskForm = (value) => {
-    setTaskForm(value);
+  const handleTaskForm = (val_1, val_2) => {
+    setTaskForm({ open: val_1, new: val_2 });
   };
+
   return (
     <>
-      <NavBar />
+      <NavBar handleTaskForm={handleTaskForm} />
       <Box
         sx={{
           width: "100%",

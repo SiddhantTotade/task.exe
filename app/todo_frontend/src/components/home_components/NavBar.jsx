@@ -4,11 +4,20 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
+import { Typography } from "@mui/material";
 
-const NavBar = () => {
+const NavBar = ({ handleTaskForm }) => {
   return (
     <Box>
-      <AppBar>
+      <AppBar
+        sx={{
+          display: "flex",
+          flexDirection: "unset",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+        }}
+      >
+        <Typography fontSize={30}>ToDo</Typography>
         <Toolbar>
           <Button
             variant="outlined"
@@ -23,6 +32,7 @@ const NavBar = () => {
                 border: "1px solid white",
               },
             }}
+            onClick={() => handleTaskForm(true, true)}
           >
             New Task
             <AddIcon />

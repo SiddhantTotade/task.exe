@@ -62,7 +62,7 @@ const IncompleteTaskCard = ({ handleTaskForm }) => {
               color: "white",
               ":hover": { background: "#455a64" },
             }}
-            onClick={() => handleTaskForm(true)}
+            onClick={() => handleTaskForm(true, false)}
           >
             <EditIcon />
           </Button>
