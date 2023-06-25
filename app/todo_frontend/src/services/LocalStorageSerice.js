@@ -18,32 +18,4 @@ const removeToken = () => {
   localStorage.removeItem("refresh_token");
 };
 
-const getCertificatePath = () => {
-  let completionCertificate = localStorage.getItem("CompletionCertificatePath");
-  let meritCertificate = localStorage.getItem("MeritCertificatePath");
-
-  return { completionCertificate, meritCertificate };
-};
-
-const setCompletionPath = (value) => {
-  if (value) {
-    const { completion } = value;
-    localStorage.setItem("CompletionCertificatePath", completion);
-  }
-};
-
-const setMeritPath = (value) => {
-  if (value) {
-    const { merit } = value;
-    localStorage.setItem("MeritCertificatePath", merit);
-  }
-};
-
-export {
-  storeToken,
-  getToken,
-  removeToken,
-  setCompletionPath,
-  setMeritPath,
-  getCertificatePath,
-};
+export { storeToken, getToken, removeToken };

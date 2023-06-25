@@ -4,8 +4,16 @@ import IncompleteTaskCard from "../components/home_components/IncompleteTaskCard
 import CompleteTaskCard from "../components/home_components/CompleteTaskCard";
 import FormCard from "../components/home_components/FormCard";
 import { Box } from "@mui/material";
+import { getToken } from "../services/LocalStorageSerice";
+import { useGetAllTasksQuery } from "../services/todoAPIs";
 
 const Home = () => {
+  const { access_token } = getToken();
+
+  const { data = [], isLoading } = useGetAllTasksQuery(access_token);
+
+  console.log(data);
+
   const [taskForm, setTaskForm] = useState({
     new: false,
     open: false,

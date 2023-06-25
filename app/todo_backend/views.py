@@ -98,3 +98,20 @@ class UserPasswordResetView(APIView):
 
         serializer.is_valid(raise_exception=True)
         return Response({'msg': 'Password reset successfully'}, status=status.HTTP_200_OK)
+
+
+class TodoView(APIView):
+    def get(self, request):
+        return Response({"data": "hello"}, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        pass
+
+    def put(self, request):
+        pass
+
+    def patch(self, request):
+        pass
+
+    def delete(self, request):
+        pass

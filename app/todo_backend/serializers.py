@@ -4,6 +4,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from xml.dom import ValidationErr
+from datetime import date
 from .models import *
 from .utils import *
 
@@ -134,3 +135,13 @@ class UserPasswordResetSerializer(serializers.Serializer):
         except DjangoUnicodeDecodeError as identifier:
             PasswordResetTokenGenerator().check_token(user, token)
             raise ValidationErr("Token is not valid")
+
+
+class TodoSerializer(serializers.Serializer):
+    class Meta:
+        model = Todos
+        fields = '__all__'
+
+        def create(self, validated_data):
+            todo = Todos.objects.create(user=validated_data['user'], title=validated_data['title'],
+                                        priority=validated_data['priority'], description=validated_data['description'], created=validated_data[date.today().strftime("%d/%m/%Y")])

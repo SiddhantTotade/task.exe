@@ -66,8 +66,7 @@ class User(AbstractBaseUser):
 
 
 class Todos(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, null=True, blank=True)
     priority = models.CharField(max_length=1, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
@@ -76,6 +75,3 @@ class Todos(models.Model):
 
     def __str__(self):
         return self.title
-
-    class Meta:
-        ordering = ['complete']

@@ -25,7 +25,7 @@ const FormCard = ({ taskForm }) => {
       >
         <TextField sx={{ width: "100%" }} label="Title" />
         <TextField sx={{ width: "100%" }} label="Priority" />
-        <TextField label="Describe Task" multiline rows={7} maxRows={8} />
+        <TextField label="Describe Task" multiline rows={7} />
         {taskForm.new ? (
           <Button variant="contained">Save</Button>
         ) : (
