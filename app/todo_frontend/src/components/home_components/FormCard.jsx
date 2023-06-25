@@ -3,7 +3,10 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Button, TextField } from "@mui/material";
 import { getToken } from "../../services/LocalStorageSerice";
-import { useCreateTaskMutation } from "../../services/todoAPIs";
+import {
+  useCreateTaskMutation,
+  useUpdateTaskMutation,
+} from "../../services/todoAPIs";
 import { useGetLoggedInUserQuery } from "../../services/userAuthAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "../../features/userSlice";
@@ -11,7 +14,13 @@ import { setUserInfo } from "../../features/userSlice";
 const FormCard = ({ taskForm, taskData }) => {
   const { access_token } = getToken();
 
+  const [updateData, setUpdateData] = React.useState(taskData);
+
+  console.log(taskData);
+
   const [createTodo, responseCreateTodo] = useCreateTaskMutation();
+
+  const [updateTodo, responseUpdateTodo] = useUpdateTaskMutation();
 
   const { data, isSuccess } = useGetLoggedInUserQuery(access_token);
 
@@ -57,14 +66,14 @@ const FormCard = ({ taskForm, taskData }) => {
         <TextField
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           label="Title"
-          value={taskForm.new ? "" : taskData.title}
+          defaultValue={taskData.title || ""}
         />
         <TextField
           onChange={(e) =>
             setFormData({ ...formData, priority: e.target.value })
           }
           label="Priority"
-          value={taskForm.new ? "" : taskData.priority}
+          defaultValue={taskData.priority || ""}
         />
         <TextField
           label="Describe Task"
@@ -73,7 +82,7 @@ const FormCard = ({ taskForm, taskData }) => {
           }
           multiline
           rows={7}
-          value={taskForm.new ? "" : taskData.description}
+          defaultValue={taskData.description || ""}
         />
         {taskForm.new ? (
           <Button
@@ -85,7 +94,14 @@ const FormCard = ({ taskForm, taskData }) => {
             Save
           </Button>
         ) : (
-          <Button variant="contained">Update</Button>
+          <Button
+            variant="contained"
+            onClick={() =>
+              updateTodo({ access_token: access_token, formData: formData })
+            }
+          >
+            Update
+          </Button>
         )}
       </CardContent>
     </Card>
