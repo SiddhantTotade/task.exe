@@ -137,11 +137,13 @@ class UserPasswordResetSerializer(serializers.Serializer):
             raise ValidationErr("Token is not valid")
 
 
-class TodoSerializer(serializers.Serializer):
+class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todos
         fields = '__all__'
 
         def create(self, validated_data):
             todo = Todos.objects.create(user=validated_data['user'], title=validated_data['title'],
-                                        priority=validated_data['priority'], description=validated_data['description'], created=validated_data[date.today().strftime("%d/%m/%Y")])
+                                        priority=validated_data['priority'], description=validated_data['description'], complete=validated_data['complete'])
+            todo.save()
+            return todo

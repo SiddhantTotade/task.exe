@@ -71,7 +71,7 @@ class Todos(models.Model):
     priority = models.CharField(max_length=1, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     complete = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.title

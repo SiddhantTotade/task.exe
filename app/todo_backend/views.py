@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework import status
 
@@ -101,8 +102,16 @@ class UserPasswordResetView(APIView):
 
 
 class TodoView(APIView):
+    renderer_classes = [UserRenderer]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
-        return Response({"data": "hello"}, status=status.HTTP_200_OK)
+        todo = Todos.objects.all()
+
+        if todo:
+            todo_serializer = TodoSerializer(todo, many=True)
+            return Response({"data": todo_serializer.data}, status=status.HTTP_200_OK)
+        return Response("", status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request):
         pass
