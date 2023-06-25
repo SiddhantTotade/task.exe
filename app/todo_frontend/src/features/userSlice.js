@@ -9,10 +9,12 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setUserInfo: (state, action) => {
+      state.id = action.payload.id;
       state.email = action.payload.email;
       state.name = action.payload.name;
     },
     unsetUserInfo: (state, action) => {
+      state.id = action.payload.id;
       state.email = action.payload.email;
       state.name = action.payload.name;
     },

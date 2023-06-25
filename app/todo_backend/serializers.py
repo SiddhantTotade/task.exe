@@ -144,6 +144,6 @@ class TodoSerializer(serializers.ModelSerializer):
 
         def create(self, validated_data):
             todo = Todos.objects.create(user=validated_data['user'], title=validated_data['title'],
-                                        priority=validated_data['priority'], description=validated_data['description'], complete=validated_data['complete'])
+                                        priority=validated_data['priority'], description=validated_data['description'])
             todo.save()
             return todo

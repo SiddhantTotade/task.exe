@@ -12,8 +12,6 @@ const Home = () => {
 
   const { data = [], isLoading } = useGetAllTasksQuery(access_token);
 
-  console.log(data);
-
   const [taskForm, setTaskForm] = useState({
     new: false,
     open: false,

@@ -4,17 +4,36 @@ import CardContent from "@mui/material/CardContent";
 import { Button, TextField } from "@mui/material";
 import { getToken } from "../../services/LocalStorageSerice";
 import { useCreateTaskMutation } from "../../services/todoAPIs";
+import { useGetLoggedInUserQuery } from "../../services/userAuthAPI";
+import { useDispatch, useSelector } from "react-redux";
+import { unsetUserInfo, setUserInfo } from "../../features/userSlice";
 
 const FormCard = ({ taskForm }) => {
   const { access_token } = getToken();
 
   const [createTodo, responseCreateTodo] = useCreateTaskMutation();
 
+  const { data, isSuccess } = useGetLoggedInUserQuery(access_token);
+
+  const myData = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = React.useState({
+    user: myData ? myData.id : "",
     title: "",
     priority: "",
     description: "",
   });
+
+  React.useEffect(() => {
+    if (data && isSuccess) {
+      dispatch(
+        setUserInfo({ id: data.id, email: data.email, name: data.name })
+      );
+      setFormData({ ...formData, user: myData.id });
+    }
+  }, [data, isSuccess, myData.id, dispatch]);
 
   return (
     <Card

@@ -20,9 +20,8 @@ export const todoAPI = createApi({
         return {
           url: "todo/",
           method: "POST",
-          body: data.eventData,
+          body: data.formData,
           headers: {
-            "Content-type": "application/json; charset=UTF-8",
             authorization: `Bearer ${data.access_token}`,
           },
         };

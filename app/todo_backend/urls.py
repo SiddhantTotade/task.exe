@@ -25,5 +25,5 @@ urlpatterns = [
 
     #     Application URLs
     # Get All Tasks w.r.t User
-    path('todo/', TodoView.as_view(), name='get_todo'),
+    path('todo/', TodoView.as_view(), name='todo'),
 ]
