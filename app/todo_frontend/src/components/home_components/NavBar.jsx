@@ -18,6 +18,10 @@ const NavBar = () => {
               display: "flex",
               gap: "5px",
               alignItems: "flex-start",
+              ":hover": {
+                background: "#1565c0",
+                border: "1px solid white",
+              },
             }}
           >
             New Task
