@@ -63,6 +63,10 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
                   color: "white",
                   ":hover": { background: "#455a64" },
                 }}
+                onClick={() => [
+                  handleTaskForm(true, false, false, true),
+                  handleTaskData({ id: row.id }),
+                ]}
               >
                 <CheckIcon />
               </Button>
@@ -73,7 +77,7 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
                   ":hover": { background: "#455a64" },
                 }}
                 onClick={() => [
-                  handleTaskForm(true, false, false),
+                  handleTaskForm(true, false, false, false),
                   handleTaskData({
                     user: row.user,
                     id: row.id,
@@ -92,7 +96,7 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
                   ":hover": { background: "#455a64" },
                 }}
                 onClick={() => [
-                  handleTaskForm(true, false, true),
+                  handleTaskForm(true, false, true, false),
                   handleTaskData({ id: row.id }),
                 ]}
               >

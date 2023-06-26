@@ -29,7 +29,11 @@ export const todoAPI = createApi({
     }),
     UpdateTask: builder.mutation({
       query: (data) => {
-        const updatedData = { ...data.formData, id: data.id };
+        const updatedData = {
+          ...data.formData,
+          id: data.id,
+          complete: data.complete,
+        };
         return {
           url: `todo/${data.id}`,
           method: "PATCH",
@@ -42,7 +46,6 @@ export const todoAPI = createApi({
     }),
     deleteTask: builder.mutation({
       query: (data) => {
-        console.log(data);
         return {
           url: `todo/${data.taskData.id}`,
           method: "DELETE",

@@ -125,15 +125,18 @@ class TodoView(APIView):
         pass
 
     def patch(self, request, pk):
-        todo = Todos.objects.get(pk=pk)
-        update_serializer = TodoSerializer(
-            todo, data=request.data, partial=True)
+        if request.data['complete'] == "TRUE":
+            Todos.objects.filter(pk=pk).update(complete=True)
+        else:
+            todo = Todos.objects.get(pk=pk)
+            update_serializer = TodoSerializer(
+                todo, data=request.data, partial=True)
 
-        update_serializer.is_valid(raise_exception=True)
-        update_serializer.save()
+            update_serializer.is_valid(raise_exception=True)
+            update_serializer.save()
 
         return Response({"data": "Task Saved"}, status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
-        todo = Todos.objects.get(pk=pk).delete()
+        Todos.objects.get(pk=pk).delete()
         return Response({"data": "Task Deleted"}, status=status.HTTP_200_OK)

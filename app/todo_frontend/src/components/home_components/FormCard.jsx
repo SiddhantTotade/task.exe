@@ -62,7 +62,7 @@ const FormCard = ({ taskForm, taskData }) => {
         gap: "10px",
       }}
     >
-      {taskForm.delete ? (
+      {taskForm.delete || taskForm.complete ? (
         <CardContent
           sx={{
             width: "100%",
@@ -74,15 +74,34 @@ const FormCard = ({ taskForm, taskData }) => {
             gap: "20px",
           }}
         >
-          <Typography>Are you sure you want to delete this task ?</Typography>
-          <Button
-            variant="contained"
-            onClick={() =>
-              deleteTodo({ taskData: taskData, access_token: access_token })
-            }
-          >
-            Delete
-          </Button>
+          {taskForm.complete ? (
+            <Typography>Have you completed this task ?</Typography>
+          ) : (
+            <Typography>Are you sure you want to delete this task ?</Typography>
+          )}
+          {taskForm.complete ? (
+            <Button
+              variant="contained"
+              onClick={() =>
+                updateTodo({
+                  id: taskData.id,
+                  access_token: access_token,
+                  complete: "TRUE",
+                })
+              }
+            >
+              Yes
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={() =>
+                deleteTodo({ taskData: taskData, access_token: access_token })
+              }
+            >
+              Delete
+            </Button>
+          )}
         </CardContent>
       ) : (
         <CardContent
@@ -138,6 +157,7 @@ const FormCard = ({ taskForm, taskData }) => {
                   access_token: access_token,
                   formData: formData,
                   id: taskData.id,
+                  complete: "FALSE",
                 })
               }
             >
