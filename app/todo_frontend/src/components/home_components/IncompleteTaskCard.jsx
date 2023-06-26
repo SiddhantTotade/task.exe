@@ -7,6 +7,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 
 const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
+  const colors = [
+    "rgb(127 29 29)",
+    "rgb(153 27 27)",
+    "rgb(185 28 28)",
+    "rgb(220 38 38)",
+    "rgb(239 68 68)",
+  ];
+
   return (
     <Card
       sx={{
@@ -49,10 +57,21 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
             <CardContent
               sx={{
                 width: "100%",
-                background: "#e53935",
+                background: colors[row.priority],
                 borderRadius: "5px",
+                color: "white",
                 ":hover": { cursor: "pointer", background: "#b0bec5" },
               }}
+              onClick={() => [
+                handleTaskForm(true, false, false, false),
+                handleTaskData({
+                  user: row.user,
+                  id: row.id,
+                  title: row.title,
+                  priority: row.priority,
+                  description: row.description,
+                }),
+              ]}
             >
               <Typography>{row.title}</Typography>
             </CardContent>

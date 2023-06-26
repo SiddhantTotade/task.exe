@@ -5,6 +5,13 @@ import { Box, Button, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const CompleteTaskCard = ({ data }) => {
+  const colors = [
+    "rgb(5 46 22)",
+    "rgb(20 83 45)",
+    "rgb(22 101 52)",
+    "rgb(21 128 61)",
+    "rgb(22 163 74)",
+  ];
   return (
     <Card
       sx={{
@@ -47,7 +54,7 @@ const CompleteTaskCard = ({ data }) => {
             <CardContent
               sx={{
                 width: "100%",
-                background: "#1b5e20",
+                background: colors[row.priority],
                 color: "white",
                 borderRadius: "5px",
                 ":hover": { cursor: "pointer", background: "#b0bec5" },
