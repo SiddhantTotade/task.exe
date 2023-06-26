@@ -1,7 +1,7 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Hidden, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const CompleteTaskCard = ({ handleTaskData, handleTaskForm, data }) => {
@@ -70,7 +70,17 @@ const CompleteTaskCard = ({ handleTaskData, handleTaskForm, data }) => {
                 }),
               ]}
             >
-              <Typography>{row.title}</Typography>
+              <Typography
+                sx={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "-webkit-box",
+                  WebkitLineClamp: "1",
+                  WebkitBoxOrient: "vertical",
+                }}
+              >
+                {row.title} : {row.description}
+              </Typography>
             </CardContent>
             <Box sx={{ display: "flex", gap: "5px" }}>
               <Button

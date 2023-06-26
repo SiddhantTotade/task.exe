@@ -73,7 +73,17 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
                 }),
               ]}
             >
-              <Typography>{row.title}</Typography>
+              <Typography
+                sx={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "-webkit-box",
+                  WebkitLineClamp: "1",
+                  WebkitBoxOrient: "vertical",
+                }}
+              >
+                {row.title} : {row.description}
+              </Typography>
             </CardContent>
             <Box sx={{ display: "flex", gap: "5px" }}>
               <Button
