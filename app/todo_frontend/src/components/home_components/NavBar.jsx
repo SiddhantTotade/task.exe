@@ -5,19 +5,35 @@ import Toolbar from "@mui/material/Toolbar";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import { TextField, Typography } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useDispatch } from "react-redux";
+import { unsetUserInfo } from "../../features/userSlice";
+import { unsetUserToken } from "../../features/authSlice";
+import { removeToken } from "../../services/LocalStorageSerice";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = ({ handleTaskForm, handleSearch }) => {
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(unsetUserToken({ access_token: null }));
+    dispatch(unsetUserInfo({ name: "", email: "" }));
+    removeToken();
+    navigate("/api/login");
+  };
   return (
     <Box>
       <AppBar
         sx={{
           display: "flex",
           flexDirection: "unset",
-          justifyContent: "space-evenly",
+          justifyContent: "space-around",
           alignItems: "center",
         }}
       >
-        <Typography fontSize={30}>ToDo</Typography>
+        <Typography fontSize={30}>TODO</Typography>
         <TextField
           id="outlined-search"
           size="small"
@@ -44,7 +60,7 @@ const NavBar = ({ handleTaskForm, handleSearch }) => {
           type="search"
           onChange={(e) => handleSearch(e.target.value)}
         />
-        <Toolbar>
+        <Toolbar sx={{ display: "flex", gap: "10px" }}>
           <Button
             variant="outlined"
             sx={{
@@ -62,6 +78,24 @@ const NavBar = ({ handleTaskForm, handleSearch }) => {
           >
             New Task
             <AddIcon />
+          </Button>
+          <Button
+            variant="outlined"
+            sx={{
+              color: "white",
+              border: "1px solid white ",
+              display: "flex",
+              gap: "5px",
+              alignItems: "flex-start",
+              ":hover": {
+                background: "#1565c0",
+                border: "1px solid white",
+              },
+            }}
+            onClick={() => handleLogout()}
+          >
+            Logout
+            <LogoutIcon />
           </Button>
         </Toolbar>
       </AppBar>

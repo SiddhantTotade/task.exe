@@ -11,6 +11,7 @@ import {
 import { useGetLoggedInUserQuery } from "../../services/userAuthAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "../../features/userSlice";
+import AlertError from "./Alert";
 
 const FormCard = ({ taskForm, taskData }) => {
   const { access_token } = getToken();
@@ -33,6 +34,23 @@ const FormCard = ({ taskForm, taskData }) => {
     priority: "",
     description: "",
   });
+
+  const [error, setError] = React.useState("");
+
+  const handleValidation = () => {
+    if ((formData.title || formData.priority || formData.description) === "") {
+      setError("All fields are required");
+      console.log("Hello");
+      return false;
+    }
+
+    if (formData.priority > "5" || formData.priority < "1") {
+      setError("Please insert values between 1 - 5");
+      return false;
+    }
+
+    return true;
+  };
 
   React.useEffect(() => {
     setFormData({
@@ -128,7 +146,7 @@ const FormCard = ({ taskForm, taskData }) => {
             }
             multiline
             rows={1}
-            label="Priority"
+            label="Priority : Between 1 - 5"
             defaultValue={taskForm.new ? "" : taskData.priority}
           />
           <TextField
@@ -144,7 +162,12 @@ const FormCard = ({ taskForm, taskData }) => {
             <Button
               variant="contained"
               onClick={() =>
-                createTodo({ access_token: access_token, formData: formData })
+                handleValidation()
+                  ? createTodo({
+                      access_token: access_token,
+                      formData: formData,
+                    })
+                  : ""
               }
             >
               Save
@@ -155,12 +178,14 @@ const FormCard = ({ taskForm, taskData }) => {
             <Button
               variant="contained"
               onClick={() =>
-                updateTodo({
-                  access_token: access_token,
-                  formData: formData,
-                  id: taskData.id,
-                  complete: "FALSE",
-                })
+                handleValidation()
+                  ? updateTodo({
+                      access_token: access_token,
+                      formData: formData,
+                      id: taskData.id,
+                      complete: "FALSE",
+                    })
+                  : ""
               }
             >
               Update
@@ -168,6 +193,7 @@ const FormCard = ({ taskForm, taskData }) => {
           )}
         </CardContent>
       )}
+      {error ? <AlertError error={error} /> : ""}
     </Card>
   );
 };
