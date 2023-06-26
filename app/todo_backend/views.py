@@ -132,8 +132,8 @@ class TodoView(APIView):
         update_serializer.is_valid(raise_exception=True)
         update_serializer.save()
 
-        return Response({"data": "Task Saved"}, status=status.HTTP_201_CREATED)
+        return Response({"data": "Task Saved"}, status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
         todo = Todos.objects.get(pk=pk).delete()
-        return Response({"data": "Task Deleted"}, status=status.HTTP_201_CREATED)
+        return Response({"data": "Task Deleted"}, status=status.HTTP_200_OK)
