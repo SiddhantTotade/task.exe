@@ -22,12 +22,13 @@ const Home = () => {
   const [taskForm, setTaskForm] = useState({
     new: false,
     open: false,
+    delete: false,
   });
 
   const [taskData, setTaskData] = useState({});
 
-  const handleTaskForm = (val_1, val_2) => {
-    setTaskForm({ open: val_1, new: val_2 });
+  const handleTaskForm = (val_1, val_2, val_3) => {
+    setTaskForm({ open: val_1, new: val_2, delete: val_3 });
   };
 
   const handleTaskData = (data) => {

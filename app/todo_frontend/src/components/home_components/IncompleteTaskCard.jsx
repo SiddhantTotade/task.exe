@@ -73,7 +73,7 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
                   ":hover": { background: "#455a64" },
                 }}
                 onClick={() => [
-                  handleTaskForm(true, false),
+                  handleTaskForm(true, false, false),
                   handleTaskData({
                     user: row.user,
                     id: row.id,
@@ -91,6 +91,10 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
                   color: "white",
                   ":hover": { background: "#455a64" },
                 }}
+                onClick={() => [
+                  handleTaskForm(true, false, true),
+                  handleTaskData({ id: row.id }),
+                ]}
               >
                 <DeleteIcon />
               </Button>

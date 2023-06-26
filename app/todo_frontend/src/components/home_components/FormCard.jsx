@@ -1,11 +1,12 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { getToken } from "../../services/LocalStorageSerice";
 import {
   useCreateTaskMutation,
   useUpdateTaskMutation,
+  useDeleteTaskMutation,
 } from "../../services/todoAPIs";
 import { useGetLoggedInUserQuery } from "../../services/userAuthAPI";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +18,8 @@ const FormCard = ({ taskForm, taskData }) => {
   const [createTodo, responseCreateTodo] = useCreateTaskMutation();
 
   const [updateTodo, responseUpdateTodo] = useUpdateTaskMutation();
+
+  const [deleteTodo, responseDeleteTodo] = useDeleteTaskMutation();
 
   const { data, isSuccess } = useGetLoggedInUserQuery(access_token);
 
@@ -59,64 +62,90 @@ const FormCard = ({ taskForm, taskData }) => {
         gap: "10px",
       }}
     >
-      <CardContent
-        sx={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          borderRadius: "5px",
-          gap: "20px",
-        }}
-      >
-        <TextField
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          label="Title"
-          multiline
-          rows={1}
-          defaultValue={taskForm.new ? "" : taskData.title}
-        />
-        <TextField
-          onChange={(e) =>
-            setFormData({ ...formData, priority: e.target.value })
-          }
-          multiline
-          rows={1}
-          label="Priority"
-          defaultValue={taskForm.new ? "" : taskData.priority}
-        />
-        <TextField
-          label="Describe Task"
-          onChange={(e) =>
-            setFormData({ ...formData, description: e.target.value })
-          }
-          multiline
-          rows={7}
-          defaultValue={taskForm.new ? "" : taskData.description}
-        />
-        {taskForm.new ? (
+      {taskForm.delete ? (
+        <CardContent
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "5px",
+            gap: "20px",
+          }}
+        >
+          <Typography>Are you sure you want to delete this task ?</Typography>
           <Button
             variant="contained"
             onClick={() =>
-              createTodo({ access_token: access_token, formData: formData })
+              deleteTodo({ taskData: taskData, access_token: access_token })
             }
           >
-            Save
+            Delete
           </Button>
-        ) : (
-          <Button
-            variant="contained"
-            onClick={() =>
-              updateTodo({
-                access_token: access_token,
-                formData: formData,
-                id: taskData.id,
-              })
+        </CardContent>
+      ) : (
+        <CardContent
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            borderRadius: "5px",
+            gap: "20px",
+          }}
+        >
+          <TextField
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
             }
-          >
-            Update
-          </Button>
-        )}
-      </CardContent>
+            label="Title"
+            multiline
+            rows={1}
+            defaultValue={taskForm.new ? "" : taskData.title}
+          />
+          <TextField
+            onChange={(e) =>
+              setFormData({ ...formData, priority: e.target.value })
+            }
+            multiline
+            rows={1}
+            label="Priority"
+            defaultValue={taskForm.new ? "" : taskData.priority}
+          />
+          <TextField
+            label="Describe Task"
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.target.value })
+            }
+            multiline
+            rows={7}
+            defaultValue={taskForm.new ? "" : taskData.description}
+          />
+          {taskForm.new ? (
+            <Button
+              variant="contained"
+              onClick={() =>
+                createTodo({ access_token: access_token, formData: formData })
+              }
+            >
+              Save
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={() =>
+                updateTodo({
+                  access_token: access_token,
+                  formData: formData,
+                  id: taskData.id,
+                })
+              }
+            >
+              Update
+            </Button>
+          )}
+        </CardContent>
+      )}
     </Card>
   );
 };

@@ -42,8 +42,9 @@ export const todoAPI = createApi({
     }),
     deleteTask: builder.mutation({
       query: (data) => {
+        console.log(data);
         return {
-          url: `todo/${data.id}`,
+          url: `todo/${data.taskData.id}`,
           method: "DELETE",
           headers: {
             authorization: `Bearer ${data.access_token}`,

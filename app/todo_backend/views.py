@@ -134,5 +134,6 @@ class TodoView(APIView):
 
         return Response({"data": "Task Saved"}, status=status.HTTP_201_CREATED)
 
-    def delete(self, request):
-        pass
+    def delete(self, request, pk):
+        todo = Todos.objects.get(pk=pk).delete()
+        return Response({"data": "Task Deleted"}, status=status.HTTP_201_CREATED)
