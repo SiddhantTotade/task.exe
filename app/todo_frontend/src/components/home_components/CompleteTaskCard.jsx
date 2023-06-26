@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import { Box, Button, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const CompleteTaskCard = ({ data }) => {
+const CompleteTaskCard = ({ handleTaskData, handleTaskForm, data }) => {
   const colors = [
     "rgb(5 46 22)",
     "rgb(20 83 45)",
@@ -59,6 +59,16 @@ const CompleteTaskCard = ({ data }) => {
                 borderRadius: "5px",
                 ":hover": { cursor: "pointer", background: "#b0bec5" },
               }}
+              onClick={() => [
+                handleTaskForm(true, false, false, false, true),
+                handleTaskData({
+                  user: row.user,
+                  id: row.id,
+                  title: row.title,
+                  priority: row.priority,
+                  description: row.description,
+                }),
+              ]}
             >
               <Typography>{row.title}</Typography>
             </CardContent>
@@ -69,6 +79,10 @@ const CompleteTaskCard = ({ data }) => {
                   color: "white",
                   ":hover": { background: "#455a64" },
                 }}
+                onClick={() => [
+                  handleTaskForm(true, false, true, false, false),
+                  handleTaskData({ id: row.id }),
+                ]}
               >
                 <DeleteIcon />
               </Button>

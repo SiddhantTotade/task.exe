@@ -17,12 +17,19 @@ const Home = () => {
     open: false,
     delete: false,
     complete: false,
+    completed: false,
   });
 
   const [taskData, setTaskData] = useState({});
 
-  const handleTaskForm = (val_1, val_2, val_3, val_4) => {
-    setTaskForm({ open: val_1, new: val_2, delete: val_3, complete: val_4 });
+  const handleTaskForm = (val_1, val_2, val_3, val_4, val_5) => {
+    setTaskForm({
+      open: val_1,
+      new: val_2,
+      delete: val_3,
+      complete: val_4,
+      completed: val_5,
+    });
   };
 
   const handleTaskData = (data) => {
@@ -43,7 +50,11 @@ const Home = () => {
           border: "2pxx solid red",
         }}
       >
-        <CompleteTaskCard data={data.data} />
+        <CompleteTaskCard
+          data={data.data}
+          handleTaskForm={handleTaskForm}
+          handleTaskData={handleTaskData}
+        />
         <IncompleteTaskCard
           data={data.data}
           handleTaskForm={handleTaskForm}

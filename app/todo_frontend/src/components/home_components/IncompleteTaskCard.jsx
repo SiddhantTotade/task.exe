@@ -63,7 +63,7 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
                 ":hover": { cursor: "pointer", background: "#b0bec5" },
               }}
               onClick={() => [
-                handleTaskForm(true, false, false, false),
+                handleTaskForm(true, false, false, false, false),
                 handleTaskData({
                   user: row.user,
                   id: row.id,
@@ -83,7 +83,7 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
                   ":hover": { background: "#455a64" },
                 }}
                 onClick={() => [
-                  handleTaskForm(true, false, false, true),
+                  handleTaskForm(true, false, false, true, false),
                   handleTaskData({ id: row.id }),
                 ]}
               >
@@ -96,7 +96,7 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
                   ":hover": { background: "#455a64" },
                 }}
                 onClick={() => [
-                  handleTaskForm(true, false, false, false),
+                  handleTaskForm(true, false, false, false, false),
                   handleTaskData({
                     user: row.user,
                     id: row.id,
@@ -115,7 +115,7 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
                   ":hover": { background: "#455a64" },
                 }}
                 onClick={() => [
-                  handleTaskForm(true, false, true, false),
+                  handleTaskForm(true, false, true, false, false),
                   handleTaskData({ id: row.id }),
                 ]}
               >

@@ -149,6 +149,8 @@ const FormCard = ({ taskForm, taskData }) => {
             >
               Save
             </Button>
+          ) : taskForm.completed ? (
+            ""
           ) : (
             <Button
               variant="contained"
