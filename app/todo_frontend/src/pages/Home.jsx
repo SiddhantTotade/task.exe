@@ -32,6 +32,10 @@ const Home = () => {
     });
   };
 
+  const handleTaskFormClose = () => {
+    setTaskForm(false);
+  };
+
   const handleTaskData = (data) => {
     setTaskData(data);
   };
@@ -83,7 +87,11 @@ const Home = () => {
           handleTaskForm={handleTaskForm}
           handleTaskData={handleTaskData}
         />
-        <FormCard taskForm={taskForm} taskData={taskData} />
+        <FormCard
+          taskForm={taskForm}
+          taskData={taskData}
+          handleTaskFormClose={handleTaskFormClose}
+        />
       </Box>
     </>
   );

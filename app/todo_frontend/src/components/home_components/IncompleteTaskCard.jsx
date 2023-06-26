@@ -8,6 +8,7 @@ import CheckIcon from "@mui/icons-material/Check";
 
 const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
   const colors = [
+    "",
     "rgb(127 29 29)",
     "rgb(153 27 27)",
     "rgb(185 28 28)",

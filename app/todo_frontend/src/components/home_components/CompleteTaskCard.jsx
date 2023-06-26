@@ -6,6 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 const CompleteTaskCard = ({ handleTaskData, handleTaskForm, data }) => {
   const colors = [
+    "",
     "rgb(5 46 22)",
     "rgb(20 83 45)",
     "rgb(22 101 52)",

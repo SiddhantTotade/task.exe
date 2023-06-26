@@ -12,8 +12,10 @@ import { useGetLoggedInUserQuery } from "../../services/userAuthAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "../../features/userSlice";
 import AlertError from "./Alert";
+import BackdropSpinner from "./Backdrop";
+import SnackbarAlert from "./Snackbar";
 
-const FormCard = ({ taskForm, taskData }) => {
+const FormCard = ({ taskForm, taskData, handleTaskFormClose }) => {
   const { access_token } = getToken();
 
   const [createTodo, responseCreateTodo] = useCreateTaskMutation();
@@ -71,130 +73,170 @@ const FormCard = ({ taskForm, taskData }) => {
   }, [data, isSuccess, myData.id, dispatch]);
 
   return (
-    <Card
-      sx={{
-        width: "30%",
-        display: taskForm.open ? "flex" : "none",
-        padding: "10px",
-        boxShadow: "3px 5px 10px",
-        gap: "10px",
-      }}
-    >
-      {taskForm.delete || taskForm.complete ? (
-        <CardContent
+    <>
+      <>
+        <Card
           sx={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: "5px",
-            gap: "20px",
+            width: "30%",
+            display: taskForm.open ? "flex" : "none",
+            padding: "10px",
+            boxShadow: "3px 5px 10px",
+            gap: "10px",
           }}
         >
-          {taskForm.complete ? (
-            <Typography>Have you completed this task ?</Typography>
-          ) : (
-            <Typography>Are you sure you want to delete this task ?</Typography>
-          )}
-          {taskForm.complete ? (
-            <Button
-              variant="contained"
-              onClick={() =>
-                updateTodo({
-                  id: taskData.id,
-                  access_token: access_token,
-                  complete: "TRUE",
-                })
-              }
+          {taskForm.delete || taskForm.complete ? (
+            <CardContent
+              sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "5px",
+                gap: "20px",
+              }}
             >
-              Yes
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              onClick={() =>
-                deleteTodo({ taskData: taskData, access_token: access_token })
-              }
-            >
-              Delete
-            </Button>
-          )}
-        </CardContent>
-      ) : (
-        <CardContent
-          sx={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            borderRadius: "5px",
-            gap: "20px",
-          }}
-        >
-          <TextField
-            onChange={(e) =>
-              setFormData({ ...formData, title: e.target.value })
-            }
-            label="Title"
-            multiline
-            rows={1}
-            defaultValue={taskForm.new ? "" : taskData.title}
-          />
-          <TextField
-            onChange={(e) =>
-              setFormData({ ...formData, priority: e.target.value })
-            }
-            multiline
-            rows={1}
-            label="Priority : Between 1 - 5"
-            defaultValue={taskForm.new ? "" : taskData.priority}
-          />
-          <TextField
-            label="Describe Task"
-            onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
-            }
-            multiline
-            rows={7}
-            defaultValue={taskForm.new ? "" : taskData.description}
-          />
-          {taskForm.new ? (
-            <Button
-              variant="contained"
-              onClick={() =>
-                handleValidation()
-                  ? createTodo({
-                      access_token: access_token,
-                      formData: formData,
-                    })
-                  : ""
-              }
-            >
-              Save
-            </Button>
-          ) : taskForm.completed ? (
-            ""
-          ) : (
-            <Button
-              variant="contained"
-              onClick={() =>
-                handleValidation()
-                  ? updateTodo({
-                      access_token: access_token,
-                      formData: formData,
+              {taskForm.complete ? (
+                <Typography>Have you completed this task ?</Typography>
+              ) : (
+                <Typography>
+                  Are you sure you want to delete this task ?
+                </Typography>
+              )}
+              {taskForm.complete ? (
+                <Button
+                  variant="contained"
+                  onClick={() => [
+                    updateTodo({
                       id: taskData.id,
-                      complete: "FALSE",
-                    })
-                  : ""
-              }
+                      access_token: access_token,
+                      complete: "TRUE",
+                    }),
+                    handleTaskFormClose(),
+                  ]}
+                >
+                  Yes
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={() => [
+                    deleteTodo({
+                      taskData: taskData,
+                      access_token: access_token,
+                    }),
+                    handleTaskFormClose(),
+                  ]}
+                >
+                  Delete
+                </Button>
+              )}
+            </CardContent>
+          ) : (
+            <CardContent
+              sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                borderRadius: "5px",
+                gap: "20px",
+              }}
             >
-              Update
-            </Button>
+              <TextField
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
+                label="Title"
+                multiline
+                rows={1}
+                defaultValue={taskForm.new ? "" : taskData.title}
+              />
+              <TextField
+                onChange={(e) =>
+                  setFormData({ ...formData, priority: e.target.value })
+                }
+                multiline
+                rows={1}
+                label="Priority : Between 1 - 5"
+                defaultValue={taskForm.new ? "" : taskData.priority}
+              />
+              <TextField
+                label="Describe Task"
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
+                multiline
+                rows={7}
+                defaultValue={taskForm.new ? "" : taskData.description}
+              />
+              {taskForm.new ? (
+                <Button
+                  variant="contained"
+                  onClick={() =>
+                    handleValidation()
+                      ? [
+                          createTodo({
+                            access_token: access_token,
+                            formData: formData,
+                          }),
+                          setFormData({
+                            title: "",
+                            priority: "",
+                            description: "",
+                          }),
+                          handleTaskFormClose(),
+                        ]
+                      : ""
+                  }
+                >
+                  Save
+                </Button>
+              ) : taskForm.completed ? (
+                ""
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={() =>
+                    handleValidation()
+                      ? [
+                          updateTodo({
+                            access_token: access_token,
+                            formData: formData,
+                            id: taskData.id,
+                            complete: "FALSE",
+                          }),
+                          setFormData({
+                            title: "",
+                            priority: "",
+                            description: "",
+                          }),
+                          handleTaskFormClose(),
+                        ]
+                      : ""
+                  }
+                >
+                  Update
+                </Button>
+              )}
+            </CardContent>
           )}
-        </CardContent>
+          {error ? <AlertError error={error} /> : ""}
+        </Card>
+      </>
+      {responseCreateTodo.isLoading ? (
+        <BackdropSpinner isLoading={responseCreateTodo.isLoading} />
+      ) : (
+        ""
       )}
-      {error ? <AlertError error={error} /> : ""}
-    </Card>
+      {responseCreateTodo.isSuccess ? (
+        <SnackbarAlert
+          isSuccess={responseCreateTodo.isSuccess}
+          msg={responseCreateTodo.data.data}
+        />
+      ) : (
+        ""
+      )}
+    </>
   );
 };
 
