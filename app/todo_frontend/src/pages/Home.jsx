@@ -36,9 +36,32 @@ const Home = () => {
     setTaskData(data);
   };
 
+  const [value, setValue] = React.useState("");
+  const [dataSource, setDataSource] = React.useState(data);
+  const [taskFilter, setTaskFilter] = React.useState([]);
+
+  const handleSearch = (e) => {
+    if (e !== "") {
+      setValue(e);
+      const filterTask = data.data.filter((o) =>
+        Object.keys(o).some((k) =>
+          String(o[k]).toLowerCase().includes(e.toLowerCase())
+        )
+      );
+      setTaskFilter([...filterTask]);
+    } else {
+      setValue(e);
+      setDataSource([...dataSource]);
+    }
+  };
+
   return (
     <>
-      <NavBar handleTaskForm={handleTaskForm} />
+      <NavBar
+        data={data}
+        handleTaskForm={handleTaskForm}
+        handleSearch={handleSearch}
+      />
       <Box
         sx={{
           width: "100%",
@@ -51,12 +74,12 @@ const Home = () => {
         }}
       >
         <CompleteTaskCard
-          data={data.data}
+          data={value.length > 0 ? taskFilter : data.data}
           handleTaskForm={handleTaskForm}
           handleTaskData={handleTaskData}
         />
         <IncompleteTaskCard
-          data={data.data}
+          data={value.length > 0 ? taskFilter : data.data}
           handleTaskForm={handleTaskForm}
           handleTaskData={handleTaskData}
         />

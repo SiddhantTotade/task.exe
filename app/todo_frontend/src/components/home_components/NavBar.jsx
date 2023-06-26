@@ -4,9 +4,9 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
-import { Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 
-const NavBar = ({ handleTaskForm }) => {
+const NavBar = ({ handleTaskForm, handleSearch }) => {
   return (
     <Box>
       <AppBar
@@ -18,6 +18,32 @@ const NavBar = ({ handleTaskForm }) => {
         }}
       >
         <Typography fontSize={30}>ToDo</Typography>
+        <TextField
+          id="outlined-search"
+          size="small"
+          InputLabelProps={{ style: { color: "white" } }}
+          inputProps={{
+            style: {
+              alignItems: "center",
+              justifyContent: "center",
+              color: "white",
+              fontSize: "medium",
+            },
+          }}
+          sx={{
+            width: "30%",
+            "& .MuiInputLabel-root": { color: "white" },
+            "&:hover .MuiOutlinedInput-root": {
+              "& > fieldset": { borderColor: "white" },
+            },
+            "& .MuiOutlinedInput-root": {
+              "& > fieldset": { borderColor: "white" },
+            },
+          }}
+          label="Search"
+          type="search"
+          onChange={(e) => handleSearch(e.target.value)}
+        />
         <Toolbar>
           <Button
             variant="outlined"
