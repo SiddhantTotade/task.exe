@@ -29,12 +29,12 @@ export const todoAPI = createApi({
     }),
     UpdateTask: builder.mutation({
       query: (data) => {
+        const updatedData = { ...data.formData, id: data.id };
         return {
           url: `todo/${data.id}`,
-          method: "PUT",
-          body: data.eventData,
+          method: "PATCH",
+          body: updatedData,
           headers: {
-            "Content-type": "application/json; charset=UTF-8",
             authorization: `Bearer ${data.access_token}`,
           },
         };

@@ -14,10 +14,6 @@ import { setUserInfo } from "../../features/userSlice";
 const FormCard = ({ taskForm, taskData }) => {
   const { access_token } = getToken();
 
-  const [updateData, setUpdateData] = React.useState(taskData);
-
-  console.log(taskData);
-
   const [createTodo, responseCreateTodo] = useCreateTaskMutation();
 
   const [updateTodo, responseUpdateTodo] = useUpdateTaskMutation();
@@ -34,6 +30,15 @@ const FormCard = ({ taskForm, taskData }) => {
     priority: "",
     description: "",
   });
+
+  React.useEffect(() => {
+    setFormData({
+      ...formData,
+      title: taskForm.new ? "" : taskData.title,
+      priority: taskForm.new ? "" : taskData.priority,
+      description: taskForm.new ? "" : taskData.description,
+    });
+  }, [taskData.title, taskForm.new, taskData.priority, taskData.description]);
 
   React.useEffect(() => {
     if (data && isSuccess) {
@@ -66,14 +71,18 @@ const FormCard = ({ taskForm, taskData }) => {
         <TextField
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           label="Title"
-          defaultValue={taskData.title || ""}
+          multiline
+          rows={1}
+          defaultValue={taskForm.new ? "" : taskData.title}
         />
         <TextField
           onChange={(e) =>
             setFormData({ ...formData, priority: e.target.value })
           }
+          multiline
+          rows={1}
           label="Priority"
-          defaultValue={taskData.priority || ""}
+          defaultValue={taskForm.new ? "" : taskData.priority}
         />
         <TextField
           label="Describe Task"
@@ -82,7 +91,7 @@ const FormCard = ({ taskForm, taskData }) => {
           }
           multiline
           rows={7}
-          defaultValue={taskData.description || ""}
+          defaultValue={taskForm.new ? "" : taskData.description}
         />
         {taskForm.new ? (
           <Button
@@ -97,7 +106,11 @@ const FormCard = ({ taskForm, taskData }) => {
           <Button
             variant="contained"
             onClick={() =>
-              updateTodo({ access_token: access_token, formData: formData })
+              updateTodo({
+                access_token: access_token,
+                formData: formData,
+                id: taskData.id,
+              })
             }
           >
             Update

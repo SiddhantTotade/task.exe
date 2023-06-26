@@ -124,8 +124,15 @@ class TodoView(APIView):
     def put(self, request):
         pass
 
-    def patch(self, request):
-        pass
+    def patch(self, request, pk):
+        todo = Todos.objects.get(pk=pk)
+        update_serializer = TodoSerializer(
+            todo, data=request.data, partial=True)
+
+        update_serializer.is_valid(raise_exception=True)
+        update_serializer.save()
+
+        return Response({"data": "Task Saved"}, status=status.HTTP_201_CREATED)
 
     def delete(self, request):
         pass

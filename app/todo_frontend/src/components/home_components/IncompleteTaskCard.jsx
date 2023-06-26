@@ -75,6 +75,7 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
                 onClick={() => [
                   handleTaskForm(true, false),
                   handleTaskData({
+                    user: row.user,
                     id: row.id,
                     title: row.title,
                     priority: row.priority,

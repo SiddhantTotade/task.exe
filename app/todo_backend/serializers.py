@@ -141,9 +141,3 @@ class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todos
         fields = '__all__'
-
-        def create(self, validated_data):
-            todo = Todos.objects.create(user=validated_data['user'], title=validated_data['title'],
-                                        priority=validated_data['priority'], description=validated_data['description'])
-            todo.save()
-            return todo
