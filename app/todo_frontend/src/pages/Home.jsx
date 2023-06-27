@@ -6,6 +6,7 @@ import FormCard from "../components/home_components/FormCard";
 import { Box } from "@mui/material";
 import { getToken } from "../services/LocalStorageSerice";
 import { useGetAllTasksQuery } from "../services/todoAPIs";
+import BackdropSpinner from "../components/home_components/Backdrop";
 
 const Home = () => {
   const { access_token } = getToken();
@@ -88,6 +89,7 @@ const Home = () => {
 
   return (
     <>
+      <BackdropSpinner isLoading={isLoading} />
       <NavBar
         data={data}
         handleTaskForm={handleTaskForm}
