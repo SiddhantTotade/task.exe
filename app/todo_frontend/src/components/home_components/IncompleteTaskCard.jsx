@@ -44,98 +44,118 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
         },
       }}
     >
-      {data?.map((row, i) =>
-        row.complete === false ? (
-          <Box
-            key={i}
-            sx={{
-              display: "flex",
-              height: "6vh",
-              gap: "10px",
-              width: "100%",
-            }}
-          >
-            <CardContent
+      {Object.entries(data).map(([created, entries]) => {
+        return (
+          <React.Fragment key={created}>
+            <Typography
               sx={{
-                width: "100%",
-                background: colors[row.priority],
-                borderRadius: "5px",
-                color: "white",
-                ":hover": { cursor: "pointer", background: "#b0bec5" },
+                display: "flex",
+                textAlign: "center",
+                justifyContent: "center",
               }}
-              onClick={() => [
-                handleTaskForm(true, false, false, false, false),
-                handleTaskData({
-                  user: row.user,
-                  id: row.id,
-                  title: row.title,
-                  priority: row.priority,
-                  description: row.description,
-                }),
-              ]}
             >
-              <Typography
-                sx={{
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  display: "-webkit-box",
-                  WebkitLineClamp: "1",
-                  WebkitBoxOrient: "vertical",
-                }}
-              >
-                {row.title} : {row.description}
-              </Typography>
-            </CardContent>
-            <Box sx={{ display: "flex", gap: "5px" }}>
-              <Button
-                sx={{
-                  background: "#607d8b",
-                  color: "white",
-                  ":hover": { background: "#455a64" },
-                }}
-                onClick={() => [
-                  handleTaskForm(true, false, false, true, false),
-                  handleTaskData({ id: row.id }),
-                ]}
-              >
-                <CheckIcon />
-              </Button>
-              <Button
-                sx={{
-                  background: "#607d8b",
-                  color: "white",
-                  ":hover": { background: "#455a64" },
-                }}
-                onClick={() => [
-                  handleTaskForm(true, false, false, false, false),
-                  handleTaskData({
-                    user: row.user,
-                    id: row.id,
-                    title: row.title,
-                    priority: row.priority,
-                    description: row.description,
-                  }),
-                ]}
-              >
-                <EditIcon />
-              </Button>
-              <Button
-                sx={{
-                  background: "#607d8b",
-                  color: "white",
-                  ":hover": { background: "#455a64" },
-                }}
-                onClick={() => [
-                  handleTaskForm(true, false, true, false, false),
-                  handleTaskData({ id: row.id }),
-                ]}
-              >
-                <DeleteIcon />
-              </Button>
-            </Box>
-          </Box>
-        ) : null
-      )}
+              {created}
+            </Typography>
+            {Array.isArray(entries)
+              ? entries.map((entry) =>
+                  entry.complete === false ? (
+                    <Box
+                      key={entry.id}
+                      sx={{
+                        display: "flex",
+                        height: "6vh",
+                        gap: "10px",
+                        width: "100%",
+                      }}
+                    >
+                      <CardContent
+                        sx={{
+                          width: "100%",
+                          background: colors[entry.priority],
+                          borderRadius: "5px",
+                          color: "white",
+                          ":hover": {
+                            cursor: "pointer",
+                            background: "#962428",
+                          },
+                        }}
+                        onClick={() => [
+                          handleTaskForm(true, false, false, false, false),
+                          handleTaskData({
+                            user: entry.user,
+                            id: entry.id,
+                            title: entry.title,
+                            priority: entry.priority,
+                            description: entry.description,
+                          }),
+                        ]}
+                      >
+                        <Typography
+                          sx={{
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            display: "-webkit-box",
+                            WebkitLineClamp: "1",
+                            WebkitBoxOrient: "vertical",
+                          }}
+                        >
+                          {entry.title} : {entry.description}
+                        </Typography>
+                      </CardContent>
+                      <Box sx={{ display: "flex", gap: "5px" }}>
+                        <Button
+                          sx={{
+                            background: "#607d8b",
+                            color: "white",
+                            ":hover": { background: "#455a64" },
+                          }}
+                          onClick={() => [
+                            handleTaskForm(true, false, false, true, false),
+                            handleTaskData({ id: entry.id }),
+                          ]}
+                        >
+                          <CheckIcon />
+                        </Button>
+                        <Button
+                          sx={{
+                            background: "#607d8b",
+                            color: "white",
+                            ":hover": { background: "#455a64" },
+                          }}
+                          onClick={() => [
+                            handleTaskForm(true, false, false, false, false),
+                            handleTaskData({
+                              user: entry.user,
+                              id: entry.id,
+                              title: entry.title,
+                              priority: entry.priority,
+                              description: entry.description,
+                            }),
+                          ]}
+                        >
+                          <EditIcon />
+                        </Button>
+                        <Button
+                          sx={{
+                            background: "#607d8b",
+                            color: "white",
+                            ":hover": { background: "#455a64" },
+                          }}
+                          onClick={() => [
+                            handleTaskForm(true, false, true, false, false),
+                            handleTaskData({ id: entry.id }),
+                          ]}
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      </Box>
+                    </Box>
+                  ) : null
+                )
+              : null}
+          </React.Fragment>
+        );
+      })}
     </Card>
   );
 };

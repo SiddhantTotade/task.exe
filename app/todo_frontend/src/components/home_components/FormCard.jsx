@@ -236,6 +236,34 @@ const FormCard = ({ taskForm, taskData, handleTaskFormClose }) => {
       ) : (
         ""
       )}
+
+      {responseUpdateTodo.isLoading ? (
+        <BackdropSpinner isLoading={responseUpdateTodo.isLoading} />
+      ) : (
+        ""
+      )}
+      {responseUpdateTodo.isSuccess ? (
+        <SnackbarAlert
+          isSuccess={responseUpdateTodo.isSuccess}
+          msg={responseUpdateTodo.data.data}
+        />
+      ) : (
+        ""
+      )}
+
+      {responseDeleteTodo.isLoading ? (
+        <BackdropSpinner isLoading={responseDeleteTodo.isLoading} />
+      ) : (
+        ""
+      )}
+      {responseDeleteTodo.isSuccess ? (
+        <SnackbarAlert
+          isSuccess={responseDeleteTodo.isSuccess}
+          msg={responseDeleteTodo.data.data}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 };

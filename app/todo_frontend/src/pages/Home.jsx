@@ -12,6 +12,19 @@ const Home = () => {
 
   const { data = [], isLoading } = useGetAllTasksQuery(access_token);
 
+  const sortedData = [...data].sort(
+    (a, b) => new Date(b.created) - new Date(a.created)
+  );
+
+  const groupedData = sortedData.reduce((result, entry) => {
+    const currentDate = entry.created;
+    if (!result[currentDate]) {
+      result[currentDate] = [];
+    }
+    result[currentDate].push(entry);
+    return result;
+  }, {});
+
   const [taskForm, setTaskForm] = useState({
     new: false,
     open: false,
@@ -47,12 +60,26 @@ const Home = () => {
   const handleSearch = (e) => {
     if (e !== "") {
       setValue(e);
-      const filterTask = data.data.filter((o) =>
+      const filterTask = data.filter((o) =>
         Object.keys(o).some((k) =>
           String(o[k]).toLowerCase().includes(e.toLowerCase())
         )
       );
-      setTaskFilter([...filterTask]);
+      const sortedTaskFilterData = [...filterTask].sort(
+        (a, b) => new Date(b.created) - new Date(a.created)
+      );
+      const groupedTaskFilterData = sortedTaskFilterData.reduce(
+        (result, entry) => {
+          const currentDate = entry.created;
+          if (!result[currentDate]) {
+            result[currentDate] = [];
+          }
+          result[currentDate].push(entry);
+          return result;
+        },
+        {}
+      );
+      setTaskFilter(groupedTaskFilterData);
     } else {
       setValue(e);
       setDataSource([...dataSource]);
@@ -72,18 +99,18 @@ const Home = () => {
           display: "flex",
           justifyContent: "center",
           position: "absolute",
-          top: "10%",
+          top: "15%",
           gap: "30px",
           border: "2pxx solid red",
         }}
       >
         <CompleteTaskCard
-          data={value.length > 0 ? taskFilter : data.data}
+          data={value.length > 0 ? taskFilter : groupedData}
           handleTaskForm={handleTaskForm}
           handleTaskData={handleTaskData}
         />
         <IncompleteTaskCard
-          data={value.length > 0 ? taskFilter : data.data}
+          data={value.length > 0 ? taskFilter : groupedData}
           handleTaskForm={handleTaskForm}
           handleTaskData={handleTaskData}
         />

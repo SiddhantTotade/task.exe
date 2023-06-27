@@ -106,11 +106,12 @@ class TodoView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        todo = Todos.objects.filter(user=request.user)
+        todo = reversed(Todos.objects.filter(user=request.user))
 
         if todo:
             todo_serializer = TodoSerializer(todo, many=True)
-            return Response({"data": todo_serializer.data}, status=status.HTTP_200_OK)
+            return JsonResponse(todo_serializer.data, safe=False)
+            # return Response({"data": todo_serializer.data}, status=status.HTTP_200_OK)
         return Response("", status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request):
@@ -135,7 +136,7 @@ class TodoView(APIView):
             update_serializer.is_valid(raise_exception=True)
             update_serializer.save()
 
-        return Response({"data": "Task Saved"}, status=status.HTTP_200_OK)
+        return Response({"data": "Task Updated"}, status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
         Todos.objects.get(pk=pk).delete()

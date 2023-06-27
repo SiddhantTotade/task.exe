@@ -23,17 +23,20 @@ const NavBar = ({ handleTaskForm, handleSearch }) => {
     removeToken();
     navigate("/api/login");
   };
+
   return (
     <Box>
       <AppBar
         sx={{
           display: "flex",
           flexDirection: "unset",
-          justifyContent: "space-around",
+          justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <Typography fontSize={30}>TODO</Typography>
+        <Typography sx={{ marginLeft: "100px" }} fontSize={30}>
+          TODO
+        </Typography>
         <TextField
           id="outlined-search"
           size="small"
@@ -48,9 +51,9 @@ const NavBar = ({ handleTaskForm, handleSearch }) => {
           }}
           sx={{
             width: "30%",
-            "& .MuiInputLabel-root": { color: "white" },
+            "& .MuiInputLabel-root": { color: "yellow" },
             "&:hover .MuiOutlinedInput-root": {
-              "& > fieldset": { borderColor: "white" },
+              "& > fieldset": { borderColor: "yellow" },
             },
             "& .MuiOutlinedInput-root": {
               "& > fieldset": { borderColor: "white" },
