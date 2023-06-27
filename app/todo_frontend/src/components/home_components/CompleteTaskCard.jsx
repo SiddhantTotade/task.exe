@@ -13,7 +13,7 @@ const CompleteTaskCard = ({ handleTaskData, handleTaskForm, data }) => {
     "rgb(21 128 61)",
     "rgb(22 163 74)",
   ];
-  
+
   return (
     <Card
       sx={{
@@ -45,15 +45,14 @@ const CompleteTaskCard = ({ handleTaskData, handleTaskForm, data }) => {
       {Object.entries(data).map(([created, entries]) => {
         return (
           <React.Fragment key={created}>
-            <Typography
-              sx={{
-                display: "flex",
-                textAlign: "center",
-                justifyContent: "center",
-              }}
-            >
-              {created}
-            </Typography>
+            {entries ? (
+              <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+                <Typography>Created : {created}</Typography>
+                <Typography>Completed : {created}</Typography>
+              </Box>
+            ) : (
+              ""
+            )}
             {Array.isArray(entries)
               ? entries.map((entry) =>
                   entry.complete === true ? (

@@ -72,6 +72,9 @@ class Todos(models.Model):
     description = models.TextField(null=True, blank=True)
     complete = models.BooleanField(default=False)
     created = models.DateField(auto_now_add=True)
+    completed = models.DateField(
+        auto_now_add=False, default=None, null=True, blank=True)
+    is_pending = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
