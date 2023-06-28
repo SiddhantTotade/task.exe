@@ -3,6 +3,12 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Button, TextField, Typography } from "@mui/material";
 import { getToken } from "../../services/LocalStorageSerice";
+import Tooltip from "@mui/material/Tooltip";
+import Stack from "@mui/material/Stack";
+// import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { LocalizationProvider } from "@mui/x-date-pickers";
+// import { DateTimePicker } from "@mui/x-date-pickers";
 import {
   useCreateTaskMutation,
   useUpdateTaskMutation,
@@ -14,6 +20,29 @@ import { setUserInfo } from "../../features/userSlice";
 import AlertError from "./Alert";
 import BackdropSpinner from "./Backdrop";
 import SnackbarAlert from "./Snackbar";
+
+function Label({ componentName, valueType, isProOnly }) {
+  const content = (
+    <span>
+      <strong>{componentName}</strong> for {valueType} editing
+    </span>
+  );
+
+  if (isProOnly) {
+    return (
+      <Stack direction="row" spacing={0.5} component="span">
+        <Tooltip title="Included on Pro package">
+          <a href="/x/introduction/licensing/#pro-plan">
+            <span className="plan-pro" />
+          </a>
+        </Tooltip>
+        {content}
+      </Stack>
+    );
+  }
+
+  return content;
+}
 
 const FormCard = ({ taskForm, taskData, handleTaskFormClose }) => {
   const { access_token } = getToken();
@@ -169,6 +198,7 @@ const FormCard = ({ taskForm, taskData, handleTaskFormClose }) => {
                 rows={7}
                 defaultValue={taskForm.new ? "" : taskData.description}
               />
+              <TextField type="datetime-local" />
               {taskForm.new ? (
                 <Button
                   variant="contained"

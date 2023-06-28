@@ -74,7 +74,8 @@ class Todos(models.Model):
     created = models.DateField(auto_now_add=True)
     completed = models.DateField(
         auto_now_add=False, default=None, null=True, blank=True)
-    is_pending = models.BooleanField(default=False)
+    complete_before = models.DateTimeField(
+        auto_now_add=False, default=None, null=True, blank=True)
 
     def __str__(self):
         return self.title
