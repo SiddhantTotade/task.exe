@@ -11,6 +11,8 @@ import { unsetUserInfo } from "../../features/userSlice";
 import { unsetUserToken } from "../../features/authSlice";
 import { removeToken } from "../../services/LocalStorageSerice";
 import { useNavigate } from "react-router-dom";
+import { useGetLoggedInUserQuery } from "../../services/userAuthAPI";
+import { getToken } from "../../services/LocalStorageSerice";
 
 const NavBar = ({ handleTaskForm, handleSearch }) => {
   const dispatch = useDispatch();
@@ -23,6 +25,10 @@ const NavBar = ({ handleTaskForm, handleSearch }) => {
     removeToken();
     navigate("/api/login");
   };
+
+  const { access_token } = getToken();
+
+  const { data, isSuccess } = useGetLoggedInUserQuery(access_token);
 
   return (
     <Box>
@@ -37,6 +43,19 @@ const NavBar = ({ handleTaskForm, handleSearch }) => {
         <Typography sx={{ marginLeft: "100px" }} fontSize={30}>
           TODO
         </Typography>
+        <Box
+          sx={{
+            position: "absolute",
+            right: "25px",
+            top: "80px",
+            color: "blue",
+            borderRadius: "5px",
+            border: "2px solid blue",
+            padding: "10px",
+          }}
+        >
+          {data ? data.name : ""}
+        </Box>
         <TextField
           id="outlined-search"
           size="small"

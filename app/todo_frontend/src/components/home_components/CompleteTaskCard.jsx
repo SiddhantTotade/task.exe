@@ -41,6 +41,7 @@ const CompleteTaskCard = ({
         height: "50vh",
         overflow: "auto",
         flexDirection: "column",
+        // justifyContent: "center",
         padding: "10px",
         boxShadow: "3px 5px 10px",
         gap: "10px",
@@ -61,6 +62,28 @@ const CompleteTaskCard = ({
         },
       }}
     >
+      <Box>
+        <Typography
+          fontSize={30}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            background: "lightseagreen",
+            padding: "10px",
+            borderRadius: "5px",
+            color: "white",
+          }}
+        >
+          Complete Tasks
+        </Typography>
+      </Box>
+      {data.length === 0 ? (
+        <Typography sx={{ display: "flex", justifyContent: "center" }}>
+          No data available
+        </Typography>
+      ) : (
+        ""
+      )}
       {Object.entries(value ? taskFilter : groupedData).map(
         ([created, entries]) => {
           return (

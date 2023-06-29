@@ -107,7 +107,10 @@ const LoginPage = () => {
             </Button>
           )}
         </Grid>
-        <Link href="/reset-password-email/">Forgot Password ?</Link>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Link href="/reset-password-email">Forgot Password ?</Link>
+          <Link href="/api/register">Create Account</Link>
+        </Box>
         <Box marginTop={2}>
           {error.non_fields_errors ? (
             <Alert severity="error">{error.non_fields_errors}</Alert>

@@ -40,7 +40,7 @@ const RegisterPage = () => {
     }
     if (res.data) {
       storeToken(res.data.token);
-      navigate("/home");
+      navigate("/api/todo");
     }
   };
 
