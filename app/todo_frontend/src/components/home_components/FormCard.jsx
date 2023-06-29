@@ -29,9 +29,7 @@ const FormCard = ({ taskForm, taskData, handleTaskFormClose }) => {
   const myData = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
-
-  console.log(taskForm);
-
+  
   const [formData, setFormData] = React.useState({
     user: myData ? myData.id : "",
     title: "",

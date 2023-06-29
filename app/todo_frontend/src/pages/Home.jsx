@@ -98,12 +98,16 @@ const Home = () => {
         }}
       >
         <CompleteTaskCard
-          data={value.length > 0 ? taskFilter : completedData}
+          data={completedData}
+          taskFilter={taskFilter}
+          value={value.length > 0 ? true : false}
           handleTaskForm={handleTaskForm}
           handleTaskData={handleTaskData}
         />
         <IncompleteTaskCard
-          data={value.length > 0 ? taskFilter : inCompletedData}
+          data={inCompletedData}
+          taskFilter={taskFilter}
+          value={value.length > 0 ? true : false}
           handleTaskForm={handleTaskForm}
           handleTaskData={handleTaskData}
         />

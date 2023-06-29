@@ -4,7 +4,13 @@ import CardContent from "@mui/material/CardContent";
 import { Box, Button, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const CompleteTaskCard = ({ handleTaskData, handleTaskForm, data }) => {
+const CompleteTaskCard = ({
+  handleTaskData,
+  handleTaskForm,
+  data,
+  taskFilter,
+  value,
+}) => {
   const colors = [
     "",
     "rgb(5 46 22)",
@@ -55,10 +61,11 @@ const CompleteTaskCard = ({ handleTaskData, handleTaskForm, data }) => {
         },
       }}
     >
-      {Object.entries(groupedData).map(([created, entries]) => {
-        return (
-          <React.Fragment key={created}>
-            {/* {entries.map((entry) => {
+      {Object.entries(value ? taskFilter : groupedData).map(
+        ([created, entries]) => {
+          return (
+            <React.Fragment key={created}>
+              {/* {entries.map((entry) => {
               return entry.complete === true ? (
                 <Typography sx={{ display: "flex", justifyContent: "center" }}>
                   Created : {created}
@@ -74,78 +81,90 @@ const CompleteTaskCard = ({ handleTaskData, handleTaskForm, data }) => {
             ) : (
               <Typography>No data available</Typography>
             )} */}
-            <Typography sx={{ display: "flex", justifyContent: "center" }}>
-              Created : {created}
-            </Typography>
-            {Array.isArray(entries)
-              ? entries.map((entry) =>
-                  entry.complete === true ? (
-                    <Box
-                      key={entry.id}
-                      sx={{
-                        display: "flex",
-                        height: "6vh",
-                        gap: "10px",
-                        width: "100%",
-                      }}
-                    >
-                      <CardContent
+              <Typography sx={{ display: "flex", justifyContent: "center" }}>
+                Created : {new Date(created).toLocaleDateString("en-IN")}
+              </Typography>
+              {Array.isArray(entries)
+                ? entries.map((entry) =>
+                    entry.complete === true ? (
+                      <Box
+                        key={entry.id}
                         sx={{
+                          display: "flex",
+                          height: "6vh",
+                          gap: "10px",
                           width: "100%",
-                          background: colors[entry.priority],
-                          borderRadius: "5px",
-                          color: "white",
-                          ":hover": {
-                            cursor: "pointer",
-                            background: "#315e3d",
-                          },
                         }}
-                        onClick={() => [
-                          handleTaskForm(true, false, false, false, true),
-                          handleTaskData({
-                            user: entry.user,
-                            id: entry.id,
-                            title: entry.title,
-                            priority: entry.priority,
-                            description: entry.description,
-                            complete_before: entry.complete_before,
-                          }),
-                        ]}
                       >
-                        <Typography
+                        <CardContent
                           sx={{
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            display: "-webkit-box",
-                            WebkitLineClamp: "1",
-                            WebkitBoxOrient: "vertical",
-                          }}
-                        >
-                          {entry.title} : {entry.description}
-                        </Typography>
-                      </CardContent>
-                      <Box sx={{ display: "flex", gap: "5px" }}>
-                        <Button
-                          sx={{
-                            background: "#607d8b",
+                            width: "100%",
+                            background: colors[entry.priority],
+                            borderRadius: "5px",
                             color: "white",
-                            ":hover": { background: "#455a64" },
+                            ":hover": {
+                              cursor: "pointer",
+                              background: "#315e3d",
+                            },
                           }}
                           onClick={() => [
-                            handleTaskForm(true, false, true, false, false),
-                            handleTaskData({ id: entry.id }),
+                            handleTaskForm(true, false, false, false, true),
+                            handleTaskData({
+                              user: entry.user,
+                              id: entry.id,
+                              title: entry.title,
+                              priority: entry.priority,
+                              description: entry.description,
+                              complete_before: entry.complete_before,
+                            }),
                           ]}
                         >
-                          <DeleteIcon />
-                        </Button>
+                          <Typography
+                            sx={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              display: "-webkit-box",
+                              WebkitLineClamp: "1",
+                              WebkitBoxOrient: "vertical",
+                            }}
+                          >
+                            {entry.title} : {entry.description}
+                          </Typography>
+                          <Box
+                            sx={{
+                              fontSize: "xx-small",
+                              display: "flex",
+                              justifyContent: "end",
+                            }}
+                          >
+                            {new Date(entry.completed).toLocaleDateString(
+                              "en-IN"
+                            )}
+                          </Box>
+                        </CardContent>
+                        <Box sx={{ display: "flex", gap: "5px" }}>
+                          <Button
+                            sx={{
+                              background: "#607d8b",
+                              color: "white",
+                              ":hover": { background: "#455a64" },
+                            }}
+                            onClick={() => [
+                              handleTaskForm(true, false, true, false, false),
+                              handleTaskData({ id: entry.id }),
+                            ]}
+                          >
+                            <DeleteIcon />
+                          </Button>
+                        </Box>
                       </Box>
-                    </Box>
-                  ) : null
-                )
-              : null}
-          </React.Fragment>
-        );
-      })}
+                    ) : null
+                  )
+                : null}
+            </React.Fragment>
+          );
+        }
+      )}
     </Card>
   );
 };

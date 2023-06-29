@@ -6,7 +6,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 
-const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
+const IncompleteTaskCard = ({
+  data,
+  taskFilter,
+  value,
+  handleTaskForm,
+  handleTaskData,
+}) => {
   const colors = [
     "",
     "rgb(127 29 29)",
@@ -59,99 +65,41 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
         },
       }}
     >
-      {Object.entries(groupedData).map(([created, entries]) => {
-        return (
-          <React.Fragment key={created}>
-            <Typography
-              sx={{
-                display: "flex",
-                textAlign: "center",
-                justifyContent: "center",
-              }}
-            >
-              {created}
-            </Typography>
-            {Array.isArray(entries)
-              ? entries.map((entry) =>
-                  entry.complete === false ? (
-                    <Box
-                      key={entry.id}
-                      sx={{
-                        display: "flex",
-                        height: "6vh",
-                        gap: "10px",
-                        width: "100%",
-                      }}
-                    >
-                      <CardContent
+      {Object.entries(value ? taskFilter : groupedData).map(
+        ([created, entries]) => {
+          return (
+            <React.Fragment key={created}>
+              <Typography
+                sx={{
+                  display: "flex",
+                  textAlign: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {new Date(created).toLocaleDateString("en-IN")}
+              </Typography>
+              {Array.isArray(entries)
+                ? entries.map((entry) =>
+                    entry.complete === false ? (
+                      <Box
+                        key={entry.id}
                         sx={{
+                          display: "flex",
+                          height: "6vh",
+                          gap: "10px",
                           width: "100%",
-                          background: colors[entry.priority],
-                          borderRadius: "5px",
-                          color: "white",
-                          ":hover": {
-                            cursor: "pointer",
-                            background: "#962428",
-                          },
                         }}
-                        onClick={() => [
-                          handleTaskForm(true, false, false, false, false),
-                          handleTaskData({
-                            user: entry.user,
-                            id: entry.id,
-                            title: entry.title,
-                            priority: entry.priority,
-                            description: entry.description,
-                            complete_before: entry.complete_before,
-                          }),
-                        ]}
                       >
-                        {current_date_time > new Date(entry.complete_before) ? (
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "end",
-                              fontSize: "8px",
-                              marginTop: "-10px",
-                              marginRight: "-10px",
-                            }}
-                          >
-                            &#128993;
-                          </Box>
-                        ) : (
-                          ""
-                        )}
-                        <Typography
+                        <CardContent
                           sx={{
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            display: "-webkit-box",
-                            WebkitLineClamp: "1",
-                            WebkitBoxOrient: "vertical",
-                          }}
-                        >
-                          {entry.title} : {entry.description}
-                        </Typography>
-                      </CardContent>
-                      <Box sx={{ display: "flex", gap: "5px" }}>
-                        <Button
-                          sx={{
-                            background: "#607d8b",
+                            width: "100%",
+                            background: colors[entry.priority],
+                            borderRadius: "5px",
                             color: "white",
-                            ":hover": { background: "#455a64" },
-                          }}
-                          onClick={() => [
-                            handleTaskForm(true, false, false, true, false),
-                            handleTaskData({ id: entry.id }),
-                          ]}
-                        >
-                          <CheckIcon />
-                        </Button>
-                        <Button
-                          sx={{
-                            background: "#607d8b",
-                            color: "white",
-                            ":hover": { background: "#455a64" },
+                            ":hover": {
+                              cursor: "pointer",
+                              background: "#962428",
+                            },
                           }}
                           onClick={() => [
                             handleTaskForm(true, false, false, false, false),
@@ -165,29 +113,90 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
                             }),
                           ]}
                         >
-                          <EditIcon />
-                        </Button>
-                        <Button
-                          sx={{
-                            background: "#607d8b",
-                            color: "white",
-                            ":hover": { background: "#455a64" },
-                          }}
-                          onClick={() => [
-                            handleTaskForm(true, false, true, false, false),
-                            handleTaskData({ id: entry.id }),
-                          ]}
-                        >
-                          <DeleteIcon />
-                        </Button>
+                          {current_date_time >
+                          new Date(entry.complete_before) ? (
+                            <Box
+                              sx={{
+                                display: "flex",
+                                justifyContent: "end",
+                                fontSize: "8px",
+                                marginTop: "-10px",
+                                marginRight: "-10px",
+                              }}
+                            >
+                              &#128993;
+                            </Box>
+                          ) : (
+                            ""
+                          )}
+                          <Typography
+                            sx={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              display: "-webkit-box",
+                              WebkitLineClamp: "1",
+                              WebkitBoxOrient: "vertical",
+                            }}
+                          >
+                            {entry.title} : {entry.description}
+                          </Typography>
+                        </CardContent>
+                        <Box sx={{ display: "flex", gap: "5px" }}>
+                          <Button
+                            sx={{
+                              background: "#607d8b",
+                              color: "white",
+                              ":hover": { background: "#455a64" },
+                            }}
+                            onClick={() => [
+                              handleTaskForm(true, false, false, true, false),
+                              handleTaskData({ id: entry.id }),
+                            ]}
+                          >
+                            <CheckIcon />
+                          </Button>
+                          <Button
+                            sx={{
+                              background: "#607d8b",
+                              color: "white",
+                              ":hover": { background: "#455a64" },
+                            }}
+                            onClick={() => [
+                              handleTaskForm(true, false, false, false, false),
+                              handleTaskData({
+                                user: entry.user,
+                                id: entry.id,
+                                title: entry.title,
+                                priority: entry.priority,
+                                description: entry.description,
+                                complete_before: entry.complete_before,
+                              }),
+                            ]}
+                          >
+                            <EditIcon />
+                          </Button>
+                          <Button
+                            sx={{
+                              background: "#607d8b",
+                              color: "white",
+                              ":hover": { background: "#455a64" },
+                            }}
+                            onClick={() => [
+                              handleTaskForm(true, false, true, false, false),
+                              handleTaskData({ id: entry.id }),
+                            ]}
+                          >
+                            <DeleteIcon />
+                          </Button>
+                        </Box>
                       </Box>
-                    </Box>
-                  ) : null
-                )
-              : null}
-          </React.Fragment>
-        );
-      })}
+                    ) : null
+                  )
+                : null}
+            </React.Fragment>
+          );
+        }
+      )}
     </Card>
   );
 };
