@@ -1,14 +1,8 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Button, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { getToken } from "../../services/LocalStorageSerice";
-import Tooltip from "@mui/material/Tooltip";
-import Stack from "@mui/material/Stack";
-// import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import { LocalizationProvider } from "@mui/x-date-pickers";
-// import { DateTimePicker } from "@mui/x-date-pickers";
 import {
   useCreateTaskMutation,
   useUpdateTaskMutation,
@@ -20,29 +14,6 @@ import { setUserInfo } from "../../features/userSlice";
 import AlertError from "./Alert";
 import BackdropSpinner from "./Backdrop";
 import SnackbarAlert from "./Snackbar";
-
-function Label({ componentName, valueType, isProOnly }) {
-  const content = (
-    <span>
-      <strong>{componentName}</strong> for {valueType} editing
-    </span>
-  );
-
-  if (isProOnly) {
-    return (
-      <Stack direction="row" spacing={0.5} component="span">
-        <Tooltip title="Included on Pro package">
-          <a href="/x/introduction/licensing/#pro-plan">
-            <span className="plan-pro" />
-          </a>
-        </Tooltip>
-        {content}
-      </Stack>
-    );
-  }
-
-  return content;
-}
 
 const FormCard = ({ taskForm, taskData, handleTaskFormClose }) => {
   const { access_token } = getToken();
@@ -64,14 +35,19 @@ const FormCard = ({ taskForm, taskData, handleTaskFormClose }) => {
     title: "",
     priority: "",
     description: "",
+    complete_before: "",
   });
 
   const [error, setError] = React.useState("");
 
   const handleValidation = () => {
-    if ((formData.title || formData.priority || formData.description) === "") {
+    if (
+      (formData.title ||
+        formData.priority ||
+        formData.description ||
+        formData.complete_before) === ""
+    ) {
       setError("All fields are required");
-      console.log("Hello");
       return false;
     }
 
@@ -89,6 +65,7 @@ const FormCard = ({ taskForm, taskData, handleTaskFormClose }) => {
       title: taskForm.new ? "" : taskData.title,
       priority: taskForm.new ? "" : taskData.priority,
       description: taskForm.new ? "" : taskData.description,
+      complete_before: taskForm.new ? "" : taskData.complete_before,
     });
   }, [taskData.title, taskForm.new, taskData.priority, taskData.description]);
 
@@ -100,6 +77,10 @@ const FormCard = ({ taskForm, taskData, handleTaskFormClose }) => {
       setFormData({ ...formData, user: myData.id });
     }
   }, [data, isSuccess, myData.id, dispatch]);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, complete_before: e.target.value });
+  };
 
   return (
     <>
@@ -178,7 +159,7 @@ const FormCard = ({ taskForm, taskData, handleTaskFormClose }) => {
                 label="Title"
                 multiline
                 rows={1}
-                defaultValue={taskForm.new ? "" : taskData.title}
+                defaultValue={taskForm.new ? "" : formData.title}
               />
               <TextField
                 onChange={(e) =>
@@ -187,7 +168,7 @@ const FormCard = ({ taskForm, taskData, handleTaskFormClose }) => {
                 multiline
                 rows={1}
                 label="Priority : Between 1 - 5"
-                defaultValue={taskForm.new ? "" : taskData.priority}
+                defaultValue={taskForm.new ? "" : formData.priority}
               />
               <TextField
                 label="Describe Task"
@@ -195,10 +176,15 @@ const FormCard = ({ taskForm, taskData, handleTaskFormClose }) => {
                   setFormData({ ...formData, description: e.target.value })
                 }
                 multiline
-                rows={7}
-                defaultValue={taskForm.new ? "" : taskData.description}
+                rows={4}
+                defaultValue={taskForm.new ? "" : formData.description}
               />
-              <TextField type="datetime-local" />
+              <TextField
+                onChange={(e) => handleChange(e)}
+                type="datetime-local"
+                rows={1}
+                value={taskForm.new ? null : formData.complete_before}
+              />
               {taskForm.new ? (
                 <Button
                   variant="contained"
@@ -239,6 +225,7 @@ const FormCard = ({ taskForm, taskData, handleTaskFormClose }) => {
                             title: "",
                             priority: "",
                             description: "",
+                            complete_before: "",
                           }),
                           handleTaskFormClose(),
                         ]

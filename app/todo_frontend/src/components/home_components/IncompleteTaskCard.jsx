@@ -16,6 +16,12 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
     "rgb(239 68 68)",
   ];
 
+  const current_date_time = new Date();
+
+  console.log(current_date_time > new Date("2023-06-29T14:00:00"));
+
+  // console.log(current_date_time);
+
   return (
     <Card
       sx={{
@@ -87,9 +93,25 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
                             title: entry.title,
                             priority: entry.priority,
                             description: entry.description,
+                            complete_before: entry.complete_before,
                           }),
                         ]}
                       >
+                        {current_date_time > new Date(entry.complete_before) ? (
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "end",
+                              fontSize: "8px",
+                              marginTop: "-10px",
+                              marginRight: "-10px",
+                            }}
+                          >
+                            &#128993;
+                          </Box>
+                        ) : (
+                          ""
+                        )}
                         <Typography
                           sx={{
                             overflow: "hidden",
@@ -130,6 +152,7 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
                               title: entry.title,
                               priority: entry.priority,
                               description: entry.description,
+                              complete_before: entry.complete_before,
                             }),
                           ]}
                         >
