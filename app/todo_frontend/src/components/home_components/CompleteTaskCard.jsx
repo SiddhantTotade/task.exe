@@ -101,13 +101,14 @@ const CompleteTaskCard = ({ handleTaskData, handleTaskForm, data }) => {
                           },
                         }}
                         onClick={() => [
-                          handleTaskForm(true, false, false, false, false),
+                          handleTaskForm(true, false, false, false, true),
                           handleTaskData({
                             user: entry.user,
                             id: entry.id,
                             title: entry.title,
                             priority: entry.priority,
                             description: entry.description,
+                            complete_before: entry.complete_before,
                           }),
                         ]}
                       >
