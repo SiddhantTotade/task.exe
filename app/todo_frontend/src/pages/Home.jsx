@@ -13,18 +13,9 @@ const Home = () => {
 
   const { data = [], isLoading } = useGetAllTasksQuery(access_token);
 
-  const sortedData = [...data].sort(
-    (a, b) => new Date(b.created) - new Date(a.created)
-  );
+  const completedData = data.filter((item) => item.complete === true);
 
-  const groupedData = sortedData.reduce((result, entry) => {
-    const currentDate = entry.created;
-    if (!result[currentDate]) {
-      result[currentDate] = [];
-    }
-    result[currentDate].push(entry);
-    return result;
-  }, {});
+  const inCompletedData = data.filter((item) => item.complete === false);
 
   const [taskForm, setTaskForm] = useState({
     new: false,
@@ -107,12 +98,12 @@ const Home = () => {
         }}
       >
         <CompleteTaskCard
-          data={value.length > 0 ? taskFilter : groupedData}
+          data={value.length > 0 ? taskFilter : completedData}
           handleTaskForm={handleTaskForm}
           handleTaskData={handleTaskData}
         />
         <IncompleteTaskCard
-          data={value.length > 0 ? taskFilter : groupedData}
+          data={value.length > 0 ? taskFilter : inCompletedData}
           handleTaskForm={handleTaskForm}
           handleTaskData={handleTaskData}
         />

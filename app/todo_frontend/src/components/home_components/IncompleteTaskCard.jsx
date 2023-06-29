@@ -16,11 +16,20 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
     "rgb(239 68 68)",
   ];
 
+  const sortedData = [...data].sort(
+    (a, b) => new Date(b.created) - new Date(a.created)
+  );
+
+  const groupedData = sortedData.reduce((result, entry) => {
+    const currentDate = entry.created;
+    if (!result[currentDate]) {
+      result[currentDate] = [];
+    }
+    result[currentDate].push(entry);
+    return result;
+  }, {});
+
   const current_date_time = new Date();
-
-  console.log(current_date_time > new Date("2023-06-29T14:00:00"));
-
-  // console.log(current_date_time);
 
   return (
     <Card
@@ -50,7 +59,7 @@ const IncompleteTaskCard = ({ data, handleTaskForm, handleTaskData }) => {
         },
       }}
     >
-      {Object.entries(data).map(([created, entries]) => {
+      {Object.entries(groupedData).map(([created, entries]) => {
         return (
           <React.Fragment key={created}>
             <Typography

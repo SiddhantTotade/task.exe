@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework import status
+from datetime import date
 
 # Create your views here.
 
@@ -127,7 +128,9 @@ class TodoView(APIView):
 
     def patch(self, request, pk):
         if request.data['complete'] == "TRUE":
-            Todos.objects.filter(pk=pk).update(complete=True)
+            today = date.today()
+            Todos.objects.filter(pk=pk).update(
+                complete=True, completed=today)
         else:
             todo = Todos.objects.get(pk=pk)
             update_serializer = TodoSerializer(

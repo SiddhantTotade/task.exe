@@ -14,6 +14,19 @@ const CompleteTaskCard = ({ handleTaskData, handleTaskForm, data }) => {
     "rgb(22 163 74)",
   ];
 
+  const sortedData = [...data].sort(
+    (a, b) => new Date(b.created) - new Date(a.created)
+  );
+
+  const groupedData = sortedData.reduce((result, entry) => {
+    const currentDate = entry.created;
+    if (!result[currentDate]) {
+      result[currentDate] = [];
+    }
+    result[currentDate].push(entry);
+    return result;
+  }, {});
+
   return (
     <Card
       sx={{
@@ -42,17 +55,28 @@ const CompleteTaskCard = ({ handleTaskData, handleTaskForm, data }) => {
         },
       }}
     >
-      {Object.entries(data).map(([created, entries]) => {
+      {Object.entries(groupedData).map(([created, entries]) => {
         return (
           <React.Fragment key={created}>
+            {/* {entries.map((entry) => {
+              return entry.complete === true ? (
+                <Typography sx={{ display: "flex", justifyContent: "center" }}>
+                  Created : {created}
+                </Typography>
+              ) : (
+                ""
+              );
+            })}
             {entries ? (
-              <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-                <Typography>Created : {created}</Typography>
-                <Typography>Completed : {created}</Typography>
-              </Box>
+              <Typography sx={{ display: "flex", justifyContent: "center" }}>
+                Created : {created}
+              </Typography>
             ) : (
-              ""
-            )}
+              <Typography>No data available</Typography>
+            )} */}
+            <Typography sx={{ display: "flex", justifyContent: "center" }}>
+              Created : {created}
+            </Typography>
             {Array.isArray(entries)
               ? entries.map((entry) =>
                   entry.complete === true ? (
